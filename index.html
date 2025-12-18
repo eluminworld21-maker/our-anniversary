@@ -16,7 +16,54 @@
         min-height: 100vh;
         margin: 0;
         color: #d63384;
+        overflow: hidden; /* Keeps floating hearts within screen */
       }
+
+      /* PASSWORD SCREEN */
+      #login-screen {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: #fff5f8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        transition: opacity 1s ease;
+      }
+      .lock-card {
+        background: white;
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0 10px 25px rgba(214, 51, 132, 0.2);
+        text-align: center;
+        border: 3px solid #ffb7c5;
+        max-width: 350px;
+        width: 85%;
+      }
+      #passInput {
+        padding: 12px;
+        border-radius: 10px;
+        border: 2px solid #ffb7c5;
+        outline: none;
+        text-align: center;
+        font-size: 1rem;
+        margin: 15px 0;
+        width: 80%;
+      }
+      .unlock-btn {
+        background: #ff4d6d;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s;
+      }
+      .unlock-btn:active { transform: scale(0.95); }
+
+      /* MAIN CARD */
       .card {
         background: white;
         padding: 40px;
@@ -26,17 +73,14 @@
         border: 3px solid #ffb7c5;
         max-width: 400px;
         width: 90%;
+        z-index: 10;
+        display: none; /* Hidden until login */
+        opacity: 0;
+        transition: opacity 1s ease;
       }
-      h1 {
-        font-size: 2.2rem;
-        margin: 10px 0;
-        color: #ff4d6d;
-      }
-      .cats {
-        font-size: 60px;
-        margin-bottom: 10px;
-        cursor: default;
-      }
+
+      h1 { font-size: 2.2rem; margin: 10px 0; color: #ff4d6d; }
+      .cats { font-size: 60px; margin-bottom: 10px; cursor: default; }
 
       .timer-display {
         display: flex;
@@ -49,21 +93,10 @@
         border-radius: 10px;
         min-width: 60px;
       }
-      .num {
-        font-size: 1.5rem;
-        font-weight: bold;
-        display: block;
-        color: #ff4d6d;
-      }
-      .label {
-        font-size: 0.7rem;
-        color: #ff8fa3;
-        text-transform: uppercase;
-      }
+      .num { font-size: 1.5rem; font-weight: bold; display: block; color: #ff4d6d; }
+      .label { font-size: 0.7rem; color: #ff8fa3; text-transform: uppercase; }
 
-      #secret-message {
-        display: none;
-      }
+      #secret-message { display: none; }
       .letter {
         background: #fff0f3;
         padding: 20px;
@@ -74,58 +107,49 @@
         margin-top: 20px;
         line-height: 1.5;
       }
-      .heart {
-        animation: beat 1s infinite;
-        display: inline-block;
-        color: #ff4d6d;
-      }
-      .paws {
-        display: inline-block;
-        animation: wave 2s infinite;
-      }
+      .heart { animation: beat 1s infinite; display: inline-block; color: #ff4d6d; }
+      .paws { display: inline-block; animation: wave 2s infinite; }
 
-      @keyframes beat {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.2);
-        }
-        100% {
-          transform: scale(1);
-        }
+      /* ANIMATIONS */
+      @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
       }
-      @keyframes wave {
-        0%,
-        100% {
-          transform: rotate(0deg);
-        }
-        50% {
-          transform: rotate(15deg);
-        }
+      .floating-heart {
+        position: absolute; bottom: -100px;
+        color: rgba(214, 51, 132, 0.2);
+        font-size: 20px;
+        animation: float 10s linear infinite;
+        z-index: -1;
       }
+      @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+      @keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(15deg); } }
     </style>
   </head>
   <body>
-    <div class="card">
+
+    <div id="login-screen">
+      <div class="lock-card">
+        <div style="font-size: 50px;">🔒</div>
+        <p style="margin-bottom: 5px; font-weight: bold;">A Secret for Billi...</p>
+        <input type="password" id="passInput" placeholder="Enter Secret Code" onkeypress="handleKey(event)"/>
+        <br />
+        <button class="unlock-btn" onclick="checkPass()">Unlock</button>
+        <p id="error-msg" style="color: red; font-size: 0.8rem; margin-top: 10px; display: none;">Wrong code, Billa says try again! 🐾</p>
+      </div>
+    </div>
+
+    <div class="card" id="main-card">
       <div class="cats">🐈‍⬛ <span class="paws">🐾</span> 🐈</div>
       <h1>Satyam <span class="heart">❤️</span> Neha</h1>
       <p>Our 2nd Anniversary Countdown</p>
 
       <div id="countdown-ui">
         <div class="timer-display">
-          <div class="box">
-            <span class="num" id="days">00</span><span class="label">Days</span>
-          </div>
-          <div class="box">
-            <span class="num" id="hours">00</span><span class="label">Hrs</span>
-          </div>
-          <div class="box">
-            <span class="num" id="mins">00</span><span class="label">Min</span>
-          </div>
-          <div class="box">
-            <span class="num" id="secs">00</span><span class="label">Sec</span>
-          </div>
+          <div class="box"><span class="num" id="days">00</span><span class="label">Days</span></div>
+          <div class="box"><span class="num" id="hours">00</span><span class="label">Hrs</span></div>
+          <div class="box"><span class="num" id="mins">00</span><span class="label">Min</span></div>
+          <div class="box"><span class="num" id="secs">00</span><span class="label">Sec</span></div>
         </div>
       </div>
 
@@ -144,8 +168,41 @@
     </div>
 
     <script>
-      // TARGET DATE: Dec 23rd
-      const target = new Date("December 18, 2025 15:49:00").getTime();
+      // 1. PASSWORD LOGIC
+      function checkPass() {
+        const pass = document.getElementById("passInput").value.toLowerCase();
+        if (pass === "billi") {
+          document.getElementById("login-screen").style.opacity = "0";
+          setTimeout(() => {
+            document.getElementById("login-screen").style.display = "none";
+            const mainCard = document.getElementById("main-card");
+            mainCard.style.display = "block";
+            setTimeout(() => { mainCard.style.opacity = "1"; }, 50);
+          }, 1000);
+        } else {
+          document.getElementById("error-msg").style.display = "block";
+        }
+      }
+
+      function handleKey(e) {
+        if (e.keyCode === 13) { checkPass(); }
+      }
+
+      // 2. FLOATING HEARTS GENERATOR
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('floating-heart');
+        heart.innerHTML = '💗';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 5 + 5 + 's';
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 10000);
+      }
+      setInterval(createHeart, 800);
+
+      // 3. COUNTDOWN LOGIC (Set to Dec 23)
+      const target = new Date("December 23, 2025 00:00:00").getTime();
       let confettiFired = false;
 
       function update() {
@@ -179,25 +236,11 @@
       }
 
       function fireConfetti() {
-        var end = Date.now() + 15 * 1000; // 15 seconds of celebration
+        var end = Date.now() + 15 * 1000;
         (function frame() {
-          confetti({
-            particleCount: 3,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: ["#ff4d6d", "#ffb7c5"],
-          });
-          confetti({
-            particleCount: 3,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: ["#ff4d6d", "#ffb7c5"],
-          });
-          if (Date.now() < end) {
-            requestAnimationFrame(frame);
-          }
+          confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ["#ff4d6d", "#ffb7c5"] });
+          confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ["#ff4d6d", "#ffb7c5"] });
+          if (Date.now() < end) { requestAnimationFrame(frame); }
         })();
       }
 
