@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Satyam ❤️ Neha | 2 Years</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+      body {
+        background-color: #fff5f8;
+        font-family: "Arial", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        color: #d63384;
+      }
+      .card {
+        background: white;
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0 10px 25px rgba(214, 51, 132, 0.2);
+        text-align: center;
+        border: 3px solid #ffb7c5;
+        max-width: 400px;
+        width: 90%;
+      }
+      h1 {
+        font-size: 2.2rem;
+        margin: 10px 0;
+        color: #ff4d6d;
+      }
+      .cats {
+        font-size: 60px;
+        margin-bottom: 10px;
+        cursor: default;
+      }
+
+      .timer-display {
+        display: flex;
+        justify-content: space-around;
+        margin: 25px 0;
+      }
+      .box {
+        background: #fff0f3;
+        padding: 10px;
+        border-radius: 10px;
+        min-width: 60px;
+      }
+      .num {
+        font-size: 1.5rem;
+        font-weight: bold;
+        display: block;
+        color: #ff4d6d;
+      }
+      .label {
+        font-size: 0.7rem;
+        color: #ff8fa3;
+        text-transform: uppercase;
+      }
+
+      #secret-message {
+        display: none;
+      }
+      .letter {
+        background: #fff0f3;
+        padding: 20px;
+        border-radius: 15px;
+        font-style: italic;
+        border-left: 4px solid #ff4d6d;
+        text-align: left;
+        margin-top: 20px;
+        line-height: 1.5;
+      }
+      .heart {
+        animation: beat 1s infinite;
+        display: inline-block;
+        color: #ff4d6d;
+      }
+      .paws {
+        display: inline-block;
+        animation: wave 2s infinite;
+      }
+
+      @keyframes beat {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes wave {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(15deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="cats">🐈‍⬛ <span class="paws">🐾</span> 🐈</div>
+      <h1>Satyam <span class="heart">❤️</span> Neha</h1>
+      <p>Our 2nd Anniversary Countdown</p>
+
+      <div id="countdown-ui">
+        <div class="timer-display">
+          <div class="box">
+            <span class="num" id="days">00</span><span class="label">Days</span>
+          </div>
+          <div class="box">
+            <span class="num" id="hours">00</span><span class="label">Hrs</span>
+          </div>
+          <div class="box">
+            <span class="num" id="mins">00</span><span class="label">Min</span>
+          </div>
+          <div class="box">
+            <span class="num" id="secs">00</span><span class="label">Sec</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="secret-message">
+        <h2 style="color: #ff4d6d">Happy 2nd Anniversary! 🎉</h2>
+        <div class="letter">
+          "To my favorite Billi, <br /><br />
+          Today marks 2 amazing years of us. Thank you for being by my side
+          through everything. I love you more than all the treats in the world!
+          <br /><br />
+          I'm so lucky to have you in my life. Here's to many more years of
+          meows, purrs, and being together. <br /><br />
+          — Your Billa, Satyam ❤️"
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // TARGET DATE: Dec 23rd
+      const target = new Date("December 18, 2025 15:49:00").getTime();
+      let confettiFired = false;
+
+      function update() {
+        const now = new Date().getTime();
+        const gap = target - now;
+
+        if (gap <= 0) {
+          document.getElementById("countdown-ui").style.display = "none";
+          document.getElementById("secret-message").style.display = "block";
+          if (!confettiFired) {
+            fireConfetti();
+            confettiFired = true;
+          }
+          return;
+        }
+
+        const second = 1000;
+        const minute = second * 60;
+        const hour = minute * 60;
+        const day = hour * 24;
+
+        const d = Math.floor(gap / day);
+        const h = Math.floor((gap % day) / hour);
+        const m = Math.floor((gap % hour) / minute);
+        const s = Math.floor((gap % minute) / second);
+
+        document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+        document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+        document.getElementById("mins").innerText = m < 10 ? "0" + m : m;
+        document.getElementById("secs").innerText = s < 10 ? "0" + s : s;
+      }
+
+      function fireConfetti() {
+        var end = Date.now() + 15 * 1000; // 15 seconds of celebration
+        (function frame() {
+          confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ["#ff4d6d", "#ffb7c5"],
+          });
+          confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ["#ff4d6d", "#ffb7c5"],
+          });
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      }
+
+      setInterval(update, 1000);
+      update();
+    </script>
+  </body>
+</html>
