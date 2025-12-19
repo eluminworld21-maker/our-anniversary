@@ -25,20 +25,14 @@
         margin: 0;
         color: #d63384;
         overflow-x: hidden;
-        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="font-size:20px"><text y="15">🐾</text></svg>'),
-          auto;
+        /* POINT 4: Cat Paw Cursor */
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size:24px"><text y="24">🐾</text></svg>'), auto;
       }
 
       @keyframes gradient {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
 
       .card {
@@ -61,10 +55,7 @@
 
       #login-screen {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         background: #fff5f8;
         display: flex;
         flex-direction: column;
@@ -94,8 +85,7 @@
         width: 80%;
       }
 
-      .unlock-btn,
-      .reason-btn {
+      .unlock-btn, .reason-btn {
         background: var(--primary);
         color: white;
         border: none;
@@ -117,10 +107,7 @@
         padding: 10px;
         border-radius: 15px;
       }
-      .stat-item b {
-        display: block;
-        font-size: 1rem;
-      }
+      .stat-item b { display: block; font-size: 1rem; }
 
       #reason-text {
         margin-top: 10px;
@@ -130,281 +117,143 @@
         transition: opacity 0.3s;
       }
 
-      .letter {
-        background: rgba(255, 255, 255, 0.4);
-        padding: 20px;
-        border-radius: 20px;
-        font-style: italic;
-        border-left: 6px solid var(--primary);
-        text-align: left;
-        margin-top: 15px;
-        line-height: 1.5;
-        font-size: 0.95rem;
+      /* POINT 4: Sparkle Trail Style */
+      .sparkle {
+        position: absolute;
+        pointer-events: none;
+        font-size: 12px;
+        animation: sparkleAnim 1s linear forwards;
+        z-index: 9999;
+      }
+      @keyframes sparkleAnim {
+        0% { transform: scale(1) translateY(0); opacity: 1; }
+        100% { transform: scale(0) translateY(-50px); opacity: 0; }
       }
 
       .floating {
-        position: absolute;
-        bottom: -100px;
+        position: absolute; bottom: -100px;
         animation: floatUp 12s linear infinite;
         z-index: -1;
       }
       @keyframes floatUp {
-        0% {
-          transform: translate(0, 0) rotate(0deg);
-          opacity: 0;
-        }
-        20% {
-          opacity: 0.7;
-          transform: translate(15px, -20vh) rotate(45deg);
-        }
-        100% {
-          transform: translate(0, -110vh) rotate(360deg);
-          opacity: 0;
-        }
+        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+        20% { opacity: 0.7; transform: translate(15px, -20vh) rotate(45deg); }
+        100% { transform: translate(0, -110vh) rotate(360deg); opacity: 0; }
       }
 
-      .click-heart {
-        position: absolute;
-        pointer-events: none;
-        animation: clickPop 0.8s ease-out forwards;
-        z-index: 9999;
-      }
-      @keyframes clickPop {
-        0% {
-          transform: scale(0);
-          opacity: 1;
-        }
-        100% {
-          transform: scale(2) translateY(-30px);
-          opacity: 0;
-        }
-      }
-
-      .heart {
-        animation: beat 1s infinite;
-        display: inline-block;
-        color: var(--primary);
-      }
-      @keyframes beat {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.2);
-        }
-      }
+      .heart { animation: beat 1s infinite; display: inline-block; color: var(--primary); }
+      @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
     </style>
   </head>
   <body>
-    <audio id="bgMusic" loop>
-      <source
-        src="our_song.mp3"
-        type="audio/mpeg"
-      />
-    </audio>
+
+    <div id="player" style="position: absolute; top: -1000px;"></div>
 
     <div id="login-screen">
       <div class="lock-card">
         <div style="font-size: 55px; margin-bottom: 10px">🎁</div>
-        <p style="font-weight: bold; font-size: 1.2rem">
-          A special gift for Neha
-        </p>
-        <p style="color: #888; font-size: 0.9rem">
-          Enter the secret code to unlock
-        </p>
-        <input
-          type="password"
-          id="passInput"
-          placeholder="Password..."
-          onkeypress="handleKey(event)"
-        />
+        <p style="font-weight: bold; font-size: 1.2rem">A special gift for Neha</p>
+        <p style="color: #888; font-size: 0.9rem">Enter the secret code to unlock</p>
+        <input type="password" id="passInput" placeholder="Password..." onkeypress="handleKey(event)" />
         <br />
         <button class="unlock-btn" onclick="checkPass()">Unlock Magic</button>
-        <p
-          id="error-msg"
-          style="color: red; font-size: 0.8rem; margin-top: 10px; display: none"
-        >
-          Wrong code! Ask Billa 🐾
-        </p>
+        <p id="error-msg" style="color: red; font-size: 0.8rem; margin-top: 10px; display: none">Wrong code! Ask Billa 🐾</p>
       </div>
     </div>
 
     <div class="card" id="main-card">
-      <div style="font-size: 60px">🐈‍⬛ ❤️ 🐈</div>
-      <h1 style="text-shadow: 0 0 10px rgba(255, 77, 109, 0.3)">
-        Satyam <span class="heart">❤️</span> Neha
-      </h1>
-
+      <div style="font-size: 60px;">🐈‍⬛ ❤️ 🐈</div>
+      <h1 style="text-shadow: 0 0 10px rgba(255,77,109,0.3);">Satyam <span class="heart">❤️</span> Neha</h1>
+      
       <div class="stats-container">
-        <div class="stat-item"><b id="stat-days">0</b>Days</div>
-        <div class="stat-item"><b id="stat-hours">0</b>Hours</div>
-        <div class="stat-item"><b id="stat-mins">0</b>Mins</div>
+          <div class="stat-item"><b id="stat-days">0</b>Days</div>
+          <div class="stat-item"><b id="stat-hours">0</b>Hours</div>
+          <div class="stat-item"><b id="stat-mins">0</b>Mins</div>
       </div>
 
       <div id="countdown-ui">
-        <div
-          style="display: flex; justify-content: space-around; margin: 15px 0"
-        >
-          <div
-            style="
-              background: rgba(255, 240, 243, 0.8);
-              padding: 10px;
-              border-radius: 15px;
-              min-width: 60px;
-            "
-          >
-            <span
-              id="days"
-              style="
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--primary);
-                display: block;
-              "
-              >00</span
-            ><span style="font-size: 0.65rem; color: var(--secondary)"
-              >Days</span
-            >
+        <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
+            <span id="days" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Days</span>
           </div>
-          <div
-            style="
-              background: rgba(255, 240, 243, 0.8);
-              padding: 10px;
-              border-radius: 15px;
-              min-width: 60px;
-            "
-          >
-            <span
-              id="hours"
-              style="
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--primary);
-                display: block;
-              "
-              >00</span
-            ><span style="font-size: 0.65rem; color: var(--secondary)"
-              >Hrs</span
-            >
+          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
+            <span id="hours" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Hrs</span>
           </div>
-          <div
-            style="
-              background: rgba(255, 240, 243, 0.8);
-              padding: 10px;
-              border-radius: 15px;
-              min-width: 60px;
-            "
-          >
-            <span
-              id="mins"
-              style="
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--primary);
-                display: block;
-              "
-              >00</span
-            ><span style="font-size: 0.65rem; color: var(--secondary)"
-              >Min</span
-            >
+          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
+            <span id="mins" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Min</span>
           </div>
-          <div
-            style="
-              background: rgba(255, 240, 243, 0.8);
-              padding: 10px;
-              border-radius: 15px;
-              min-width: 60px;
-            "
-          >
-            <span
-              id="secs"
-              style="
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: var(--primary);
-                display: block;
-              "
-              >00</span
-            ><span style="font-size: 0.65rem; color: var(--secondary)"
-              >Sec</span
-            >
+          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
+            <span id="secs" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Sec</span>
           </div>
         </div>
       </div>
 
-      <div id="secret-message" style="display: none">
-        <h2 style="color: var(--primary)">Happy 2nd Anniversary! 🎉</h2>
-        <div class="letter">
+      <div id="secret-message" style="display: none;">
+        <h2 style="color: var(--primary);">Happy 2nd Anniversary! 🎉</h2>
+        <div style="background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 20px; font-style: italic; border-left: 6px solid var(--primary); text-align: left; margin-top: 15px; line-height: 1.5; font-size: 0.95rem;">
           "To my favorite Billi, <br /><br />
           Today marks 2 amazing years of us. Thank you for being by my side
-          through everything. I love you more than all the treats in the world!
-          <br /><br />
+          through everything. I love you more than all the treats in the world! <br><br>
           — Your Billa, Satyam ❤️"
         </div>
       </div>
 
-      <button
-        class="reason-btn"
-        onclick="showReason()"
-        style="margin-top: 15px; font-size: 0.8rem"
-      >
-        Click for a Surprise ✨
-      </button>
+      <button class="reason-btn" onclick="showReason()" style="margin-top:15px; font-size:0.8rem;">Click for a Surprise ✨</button>
       <p id="reason-text"></p>
     </div>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-      const reasons = [
-        "I love your beautiful smile! 😊",
-        "I love how you care for me. ❤️",
-        "You are my best friend forever. 🐾",
-        "Your hugs are my favorite place. 🤗",
-        "You make every day special. 🌸",
-      ];
+      let player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '0', width: '0',
+          videoId: '725WlG1idwY', // Love Me Like You Do
+          playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': '725WlG1idwY', 'origin': window.location.origin },
+          events: { 'onReady': (event) => { event.target.mute(); event.target.playVideo(); } }
+        });
+      }
 
+      const reasons = ["I love your smile! 😊", "I love how you care. ❤️", "You are my best friend. 🐾", "Hugs with you are best. 🤗", "You make every day special. 🌸"];
       function showReason() {
         const text = document.getElementById("reason-text");
-        text.style.opacity = 0;
-        setTimeout(() => {
-          text.innerText = reasons[Math.floor(Math.random() * reasons.length)];
-          text.style.opacity = 1;
-        }, 200);
+        text.innerText = reasons[Math.floor(Math.random() * reasons.length)];
       }
+
+      // POINT 4: Sparkle Trail Logic
+      document.addEventListener("mousemove", (e) => {
+        const sparkle = document.createElement("div");
+        sparkle.innerHTML = "✨";
+        sparkle.className = "sparkle";
+        sparkle.style.left = e.pageX + "px";
+        sparkle.style.top = e.pageY + "px";
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      });
 
       function checkPass() {
         const pass = document.getElementById("passInput").value.toLowerCase();
         if (pass === "billi") {
           document.title = "Satyam ❤️ Neha | Forever";
-
-          // PLAY MUSIC ON CLICK
-          const audio = document.getElementById("bgMusic");
-          audio.play().catch((e) => console.log("Audio Playback Issue"));
-
+          if (player) { player.unMute(); player.setVolume(100); player.playVideo(); }
           document.getElementById("login-screen").style.opacity = "0";
           setTimeout(() => {
             document.getElementById("login-screen").style.display = "none";
             const mc = document.getElementById("main-card");
             mc.style.display = "block";
-            setTimeout(() => {
-              mc.style.opacity = "1";
-            }, 50);
+            setTimeout(() => { mc.style.opacity = "1"; }, 50);
           }, 1200);
         } else {
           document.getElementById("error-msg").style.display = "block";
         }
       }
 
-      function handleKey(e) {
-        if (e.keyCode === 13) checkPass();
-      }
+      function handleKey(e) { if (e.keyCode === 13) checkPass(); }
 
       function createFloatie() {
         const el = document.createElement("div");
         el.classList.add("floating");
-        el.innerHTML = ["💗", "💖", "🐾", "🌸", "✨"][
-          Math.floor(Math.random() * 5)
-        ];
+        el.innerHTML = ["💗", "💖", "🐾", "🌸", "✨"][Math.floor(Math.random() * 5)];
         el.style.left = Math.random() * 100 + "vw";
         el.style.fontSize = Math.random() * 20 + 15 + "px";
         el.style.animationDuration = Math.random() * 5 + 8 + "s";
@@ -413,16 +262,6 @@
       }
       setInterval(createFloatie, 700);
 
-      document.addEventListener("click", (e) => {
-        const h = document.createElement("div");
-        h.innerHTML = "❤️";
-        h.className = "click-heart";
-        h.style.left = e.pageX + "px";
-        h.style.top = e.pageY + "px";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 800);
-      });
-
       const startDate = new Date("December 23, 2023 00:00:00").getTime();
       const targetDate = new Date("December 23, 2025 00:00:00").getTime();
       let confettiFired = false;
@@ -430,15 +269,9 @@
       function update() {
         const now = new Date().getTime();
         const lifeGap = now - startDate;
-        document.getElementById("stat-days").innerText = Math.floor(
-          lifeGap / (1000 * 60 * 60 * 24)
-        );
-        document.getElementById("stat-hours").innerText = Math.floor(
-          lifeGap / (1000 * 60 * 60)
-        );
-        document.getElementById("stat-mins").innerText = Math.floor(
-          lifeGap / (1000 * 60)
-        );
+        document.getElementById("stat-days").innerText = Math.floor(lifeGap / (1000 * 60 * 60 * 24));
+        document.getElementById("stat-hours").innerText = Math.floor(lifeGap / (1000 * 60 * 60));
+        document.getElementById("stat-mins").innerText = Math.floor(lifeGap / (1000 * 60));
 
         const gap = targetDate - now;
         if (gap <= 0) {
@@ -447,46 +280,22 @@
           if (!confettiFired) {
             var end = Date.now() + 15 * 1000;
             (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ["#ff4d6d", "#ffffff"],
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ["#ff4d6d", "#ffffff"],
-              });
+              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ["#ff4d6d", "#ffffff"] });
+              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ["#ff4d6d", "#ffffff"] });
               if (Date.now() < end) requestAnimationFrame(frame);
             })();
             confettiFired = true;
           }
           return;
         }
-        const s = 1000,
-          m = s * 60,
-          h = m * 60,
-          d = h * 24;
-        document.getElementById("days").innerText = Math.floor(gap / d)
-          .toString()
-          .padStart(2, "0");
-        document.getElementById("hours").innerText = Math.floor((gap % d) / h)
-          .toString()
-          .padStart(2, "0");
-        document.getElementById("mins").innerText = Math.floor((gap % h) / m)
-          .toString()
-          .padStart(2, "0");
-        document.getElementById("secs").innerText = Math.floor((gap % m) / s)
-          .toString()
-          .padStart(2, "0");
+        const s = 1000, m = s * 60, h = m * 60, d = h * 24;
+        document.getElementById("days").innerText = Math.floor(gap / d).toString().padStart(2, "0");
+        document.getElementById("hours").innerText = Math.floor((gap % d) / h).toString().padStart(2, "0");
+        document.getElementById("mins").innerText = Math.floor((gap % h) / m).toString().padStart(2, "0");
+        document.getElementById("secs").innerText = Math.floor((gap % m) / s).toString().padStart(2, "0");
       }
       setInterval(update, 1000);
       update();
     </script>
   </body>
 </html>
-
