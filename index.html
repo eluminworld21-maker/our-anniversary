@@ -25,21 +25,27 @@
         margin: 0;
         color: #d63384;
         overflow-x: hidden;
-        /* POINT 4: Cat Paw Cursor */
-        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size:24px"><text y="24">🐾</text></svg>'), auto;
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="font-size:24px"><text y="24">🐾</text></svg>'),
+          auto;
       }
 
       @keyframes gradient {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
 
       .card {
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        padding: 30px 40px;
+        padding: 40px;
         border-radius: 40px;
         box-shadow: 0 20px 60px rgba(214, 51, 132, 0.2);
         text-align: center;
@@ -49,20 +55,21 @@
         z-index: 10;
         display: none;
         opacity: 0;
-        transition: all 1.5s ease;
-        margin: 20px 0;
+        transition: all 1s ease;
       }
 
       #login-screen {
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: #fff5f8;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         z-index: 1000;
-        transition: opacity 1.2s ease;
       }
 
       .lock-card {
@@ -85,7 +92,9 @@
         width: 80%;
       }
 
-      .unlock-btn, .reason-btn {
+      .unlock-btn,
+      .journey-btn,
+      .reason-btn {
         background: var(--primary);
         color: white;
         border: none;
@@ -94,205 +103,394 @@
         cursor: pointer;
         font-weight: bold;
         transition: 0.4s;
-      }
-
-      .stats-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 5px;
-        margin: 15px 0;
-        font-size: 0.8rem;
-        color: #ff4d6d;
-        background: rgba(255, 255, 255, 0.4);
-        padding: 10px;
-        border-radius: 15px;
-      }
-      .stat-item b { display: block; font-size: 1rem; }
-
-      #reason-text {
         margin-top: 10px;
-        font-weight: bold;
-        color: #d63384;
-        min-height: 25px;
-        transition: opacity 0.3s;
       }
 
-      /* POINT 4: Sparkle Trail Style */
-      .sparkle {
+      .reason-btn {
+        background: var(--secondary);
+        font-size: 0.9rem;
+        padding: 10px 25px;
+        margin: 15px 0;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin: 10px 0;
+        color: var(--primary);
+        font-weight: 800;
+      }
+      .cats {
+        font-size: 70px;
+        margin-bottom: 10px;
+      }
+
+      .paws {
+        display: inline-block;
+        animation: wave 2s infinite;
+        filter: invert(50%) sepia(91%) saturate(3000%) hue-rotate(310deg);
+      }
+
+      .timer-display {
+        display: flex;
+        justify-content: space-around;
+        margin: 25px 0;
+      }
+      .box {
+        background: rgba(255, 240, 243, 0.8);
+        padding: 15px;
+        border-radius: 20px;
+        min-width: 65px;
+        border: 1px solid rgba(255, 77, 109, 0.1);
+      }
+
+      .num {
+        font-size: 1.8rem;
+        font-weight: bold;
+        display: block;
+        color: var(--primary);
+      }
+      .label {
+        font-size: 0.75rem;
+        color: var(--secondary);
+        font-weight: bold;
+      }
+
+      .click-item {
         position: absolute;
         pointer-events: none;
-        font-size: 12px;
-        animation: sparkleAnim 1s linear forwards;
+        font-size: 20px;
+        animation: clickAnim 1s ease-out forwards;
         z-index: 9999;
       }
-      @keyframes sparkleAnim {
-        0% { transform: scale(1) translateY(0); opacity: 1; }
-        100% { transform: scale(0) translateY(-50px); opacity: 0; }
+      @keyframes clickAnim {
+        0% {
+          transform: scale(0.5) translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.5) translateY(-100px);
+          opacity: 0;
+        }
+      }
+
+      .letter {
+        background: rgba(255, 255, 255, 0.4);
+        padding: 25px;
+        border-radius: 20px;
+        font-style: italic;
+        border-left: 6px solid var(--primary);
+        text-align: left;
+        margin-top: 25px;
+        line-height: 1.6;
+        color: #444;
       }
 
       .floating {
-        position: absolute; bottom: -100px;
+        position: absolute;
+        bottom: -100px;
         animation: floatUp 12s linear infinite;
         z-index: -1;
       }
       @keyframes floatUp {
-        0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
-        20% { opacity: 0.7; transform: translate(15px, -20vh) rotate(45deg); }
-        100% { transform: translate(0, -110vh) rotate(360deg); opacity: 0; }
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0, -110vh) rotate(360deg);
+          opacity: 0;
+        }
       }
 
-      .heart { animation: beat 1s infinite; display: inline-block; color: var(--primary); }
-      @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+      .heart {
+        animation: beat 1s infinite;
+        display: inline-block;
+        color: var(--primary);
+      }
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+      @keyframes wave {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(20deg);
+        }
+      }
+
+      .stats-row {
+        display: flex;
+        justify-content: space-around;
+        background: #fff0f3;
+        padding: 15px;
+        border-radius: 15px;
+        margin: 15px 0;
+      }
+      .stat-val {
+        display: block;
+        font-weight: bold;
+        color: var(--primary);
+      }
     </style>
   </head>
   <body>
-
-    <div id="player" style="position: absolute; top: -1000px;"></div>
+    <audio id="myAudio" loop>
+      <source src="our-song.mp3" type="audio/mpeg" />
+    </audio>
 
     <div id="login-screen">
       <div class="lock-card">
         <div style="font-size: 55px; margin-bottom: 10px">🎁</div>
-        <p style="font-weight: bold; font-size: 1.2rem">A special gift for Neha</p>
-        <p style="color: #888; font-size: 0.9rem">Enter the secret code to unlock</p>
-        <input type="password" id="passInput" placeholder="Password..." onkeypress="handleKey(event)" />
+        <p style="font-weight: bold; font-size: 1.2rem">
+          A special gift for Neha
+        </p>
+        <input
+          type="password"
+          id="passInput"
+          placeholder="Password..."
+          onkeypress="handleKey(event)"
+        />
         <br />
         <button class="unlock-btn" onclick="checkPass()">Unlock Magic</button>
-        <p id="error-msg" style="color: red; font-size: 0.8rem; margin-top: 10px; display: none">Wrong code! Ask Billa 🐾</p>
       </div>
     </div>
 
     <div class="card" id="main-card">
-      <div style="font-size: 60px;">🐈‍⬛ ❤️ 🐈</div>
-      <h1 style="text-shadow: 0 0 10px rgba(255,77,109,0.3);">Satyam <span class="heart">❤️</span> Neha</h1>
-      
-      <div class="stats-container">
-          <div class="stat-item"><b id="stat-days">0</b>Days</div>
-          <div class="stat-item"><b id="stat-hours">0</b>Hours</div>
-          <div class="stat-item"><b id="stat-mins">0</b>Mins</div>
-      </div>
+      <div class="cats">😻 <span class="paws">🐾</span> 😽</div>
+      <h1>Satyam <span class="heart">❤️</span> Neha</h1>
+      <p style="font-weight: bold; color: var(--secondary)">
+        Counting every second with you...
+      </p>
+
+      <button class="reason-btn" onclick="showReason()">
+        Click for a Surprise ✨
+      </button>
+      <p
+        id="reason-text"
+        style="font-weight: bold; margin-bottom: 15px; min-height: 20px"
+      ></p>
 
       <div id="countdown-ui">
-        <div style="display: flex; justify-content: space-around; margin: 15px 0;">
-          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
-            <span id="days" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Days</span>
+        <div class="timer-display">
+          <div class="box">
+            <span class="num" id="days">00</span><span class="label">Days</span>
           </div>
-          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
-            <span id="hours" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Hrs</span>
+          <div class="box">
+            <span class="num" id="hours">00</span><span class="label">Hrs</span>
           </div>
-          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
-            <span id="mins" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Min</span>
+          <div class="box">
+            <span class="num" id="mins">00</span><span class="label">Min</span>
           </div>
-          <div style="background:rgba(255,240,243,0.8); padding:10px; border-radius:15px; min-width:60px;">
-            <span id="secs" style="font-size:1.5rem; font-weight:bold; color:var(--primary); display:block;">00</span><span style="font-size:0.65rem; color:var(--secondary);">Sec</span>
+          <div class="box">
+            <span class="num" id="secs">00</span><span class="label">Sec</span>
           </div>
         </div>
       </div>
 
-      <div id="secret-message" style="display: none;">
-        <h2 style="color: var(--primary);">Happy 2nd Anniversary! 🎉</h2>
-        <div style="background: rgba(255, 255, 255, 0.4); padding: 20px; border-radius: 20px; font-style: italic; border-left: 6px solid var(--primary); text-align: left; margin-top: 15px; line-height: 1.5; font-size: 0.95rem;">
+      <div id="secret-message" style="display: none">
+        <h2 style="color: var(--primary); font-size: 1.8rem">
+          Happy 2nd Anniversary! 🎉
+        </h2>
+        <div class="letter">
           "To my favorite Billi, <br /><br />
           Today marks 2 amazing years of us. Thank you for being by my side
-          through everything. I love you more than all the treats in the world! <br><br>
+          through everything. I love you more than all the treats in the world!
+          <br /><br />
           — Your Billa, Satyam ❤️"
         </div>
+        <button
+          class="journey-btn"
+          onclick="showJourney()"
+          style="margin-top: 20px; display: block; width: 100%"
+        >
+          Our Journey 📖
+        </button>
       </div>
-
-      <button class="reason-btn" onclick="showReason()" style="margin-top:15px; font-size:0.8rem;">Click for a Surprise ✨</button>
-      <p id="reason-text"></p>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <div
+      class="card"
+      id="journey-card"
+      style="display: none; overflow-y: auto; max-height: 85vh"
+    >
+      <h2 style="color: var(--primary)">Our 2 Years Together 🛤️</h2>
+      <div class="stats-row">
+        <div><span class="stat-val" id="st-days">0</span> Days</div>
+        <div><span class="stat-val" id="st-hours">0</span> Hours</div>
+        <div><span class="stat-val" id="st-mins">0</span> Mins</div>
+      </div>
+      <div
+        style="
+          text-align: left;
+          font-size: 0.9rem;
+          border-top: 1px solid #ffb7c5;
+          padding-top: 10px;
+        "
+      >
+        <p><b>✨ The Start:</b> Dec 23, 2023 - When it all began.</p>
+        <p><b>🗓️ The Growth:</b> 731 days of learning, loving, and laughing.</p>
+        <p><b>💖 Today:</b> Still as crazy about you as Day 1.</p>
+      </div>
+      <button
+        class="unlock-btn"
+        onclick="goBack()"
+        style="background: var(--secondary); margin-top: 20px"
+      >
+        Back ❤️
+      </button>
+    </div>
+
     <script>
-      let player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '0', width: '0',
-          videoId: '725WlG1idwY', // Love Me Like You Do
-          playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': '725WlG1idwY', 'origin': window.location.origin },
-          events: { 'onReady': (event) => { event.target.mute(); event.target.playVideo(); } }
-        });
-      }
+      const reasons = [
+        "I love your smile! 😊",
+        "I love how you care. ❤️",
+        "You are my best friend. 🐾",
+        "Hugs with you are best. 🤗",
+        "I love your laugh! ✨",
+        "You are my favorite. 🌸",
+      ];
 
-      const reasons = ["I love your smile! 😊", "I love how you care. ❤️", "You are my best friend. 🐾", "Hugs with you are best. 🤗", "You make every day special. 🌸"];
       function showReason() {
-        const text = document.getElementById("reason-text");
-        text.innerText = reasons[Math.floor(Math.random() * reasons.length)];
+        document.getElementById("reason-text").innerText =
+          reasons[Math.floor(Math.random() * reasons.length)];
       }
 
-      // POINT 4: Sparkle Trail Logic
-      document.addEventListener("mousemove", (e) => {
-        const sparkle = document.createElement("div");
-        sparkle.innerHTML = "✨";
-        sparkle.className = "sparkle";
-        sparkle.style.left = e.pageX + "px";
-        sparkle.style.top = e.pageY + "px";
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 1000);
+      document.addEventListener("mousedown", (e) => {
+        for (let i = 0; i < 5; i++) {
+          const s = document.createElement("div");
+          const items = ["❤️", "💖", "✨", "🐾", "🌸"];
+          s.innerHTML = items[Math.floor(Math.random() * items.length)];
+          s.className = "click-item";
+          s.style.left = e.pageX + (Math.random() * 40 - 20) + "px";
+          s.style.top = e.pageY + (Math.random() * 40 - 20) + "px";
+          document.body.appendChild(s);
+          setTimeout(() => s.remove(), 1000);
+        }
       });
 
       function checkPass() {
-        const pass = document.getElementById("passInput").value.toLowerCase();
-        if (pass === "billi") {
+        if (
+          document.getElementById("passInput").value.toLowerCase() === "billi"
+        ) {
           document.title = "Satyam ❤️ Neha | Forever";
-          if (player) { player.unMute(); player.setVolume(100); player.playVideo(); }
+
+          // POINT: Start local audio file
+          const audio = document.getElementById("myAudio");
+          audio
+            .play()
+            .catch((error) =>
+              console.log("Audio needs user interaction first.")
+            );
+
           document.getElementById("login-screen").style.opacity = "0";
           setTimeout(() => {
             document.getElementById("login-screen").style.display = "none";
-            const mc = document.getElementById("main-card");
-            mc.style.display = "block";
-            setTimeout(() => { mc.style.opacity = "1"; }, 50);
-          }, 1200);
-        } else {
-          document.getElementById("error-msg").style.display = "block";
+            document.getElementById("main-card").style.display = "block";
+            setTimeout(() => {
+              document.getElementById("main-card").style.opacity = "1";
+            }, 50);
+          }, 1000);
         }
       }
 
-      function handleKey(e) { if (e.keyCode === 13) checkPass(); }
+      function handleKey(e) {
+        if (e.keyCode === 13) checkPass();
+      }
+
+      function showJourney() {
+        document.getElementById("main-card").style.display = "none";
+        const jc = document.getElementById("journey-card");
+        jc.style.display = "block";
+        setTimeout(() => {
+          jc.style.opacity = "1";
+        }, 50);
+      }
+      function goBack() {
+        document.getElementById("journey-card").style.display = "none";
+        document.getElementById("main-card").style.display = "block";
+      }
 
       function createFloatie() {
         const el = document.createElement("div");
         el.classList.add("floating");
-        el.innerHTML = ["💗", "💖", "🐾", "🌸", "✨"][Math.floor(Math.random() * 5)];
+        el.innerHTML = ["💗", "💖", "❤️", "💜", "💙", "🐾", "🌸", "✨"][
+          Math.floor(Math.random() * 8)
+        ];
         el.style.left = Math.random() * 100 + "vw";
-        el.style.fontSize = Math.random() * 20 + 15 + "px";
         el.style.animationDuration = Math.random() * 5 + 8 + "s";
         document.body.appendChild(el);
         setTimeout(() => el.remove(), 12000);
       }
       setInterval(createFloatie, 700);
 
-      const startDate = new Date("December 23, 2023 00:00:00").getTime();
-      const targetDate = new Date("December 23, 2025 00:00:00").getTime();
+      const start = new Date("December 23, 2023 00:00:00").getTime();
+      const target = new Date("December 23, 2025 00:00:00").getTime();
       let confettiFired = false;
 
       function update() {
         const now = new Date().getTime();
-        const lifeGap = now - startDate;
-        document.getElementById("stat-days").innerText = Math.floor(lifeGap / (1000 * 60 * 60 * 24));
-        document.getElementById("stat-hours").innerText = Math.floor(lifeGap / (1000 * 60 * 60));
-        document.getElementById("stat-mins").innerText = Math.floor(lifeGap / (1000 * 60));
+        const lGap = now - start;
+        document.getElementById("st-days").innerText = Math.floor(
+          lGap / 86400000
+        );
+        document.getElementById("st-hours").innerText = Math.floor(
+          lGap / 3600000
+        );
+        document.getElementById("st-mins").innerText = Math.floor(lGap / 60000);
 
-        const gap = targetDate - now;
+        const gap = target - now;
         if (gap <= 0) {
           document.getElementById("countdown-ui").style.display = "none";
           document.getElementById("secret-message").style.display = "block";
           if (!confettiFired) {
-            var end = Date.now() + 15 * 1000;
+            var end = Date.now() + 15000;
             (function frame() {
-              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ["#ff4d6d", "#ffffff"] });
-              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ["#ff4d6d", "#ffffff"] });
+              confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ["#ff4d6d", "#ffffff"],
+              });
+              confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ["#ff4d6d", "#ffffff"],
+              });
               if (Date.now() < end) requestAnimationFrame(frame);
             })();
             confettiFired = true;
           }
-          return;
+        } else {
+          document.getElementById("days").innerText = Math.floor(gap / 86400000)
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("hours").innerText = Math.floor(
+            (gap % 86400000) / 3600000
+          )
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("mins").innerText = Math.floor(
+            (gap % 3600000) / 60000
+          )
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("secs").innerText = Math.floor(
+            (gap % 60000) / 1000
+          )
+            .toString()
+            .padStart(2, "0");
         }
-        const s = 1000, m = s * 60, h = m * 60, d = h * 24;
-        document.getElementById("days").innerText = Math.floor(gap / d).toString().padStart(2, "0");
-        document.getElementById("hours").innerText = Math.floor((gap % d) / h).toString().padStart(2, "0");
-        document.getElementById("mins").innerText = Math.floor((gap % h) / m).toString().padStart(2, "0");
-        document.getElementById("secs").innerText = Math.floor((gap % m) / s).toString().padStart(2, "0");
       }
       setInterval(update, 1000);
       update();
